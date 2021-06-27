@@ -1,0 +1,32 @@
+{
+  "name": "UPM-Proxy-GitHub",
+  "description": "Proxy for GitHub packages and Unity Scoped Registry",
+  "repository": "https://github.com/codebrewery/UPM-Proxy-GitHub",
+  "keywords": [
+    "node",
+    "heroku"
+  ],
+  "image": "heroku/nodejs",
+  "env": {
+    "SCOPE": {
+      "description": "The scope (owner/user) to restrict access to",
+      "value": "@"
+    },
+    "NODE_ENV": {
+      "description": "Production-mode",
+      "value": "production"
+    },
+    "SCOPE_TYPE": {
+      "description": "Either 'ORG' for organization or 'USER' for a user scoped package",
+      "value": "ORG"
+    },
+    "PACKAGE_SCOPE": {
+      "description": "Displayed on the homepage for instruction purposes",
+      "value": "com.myorganization.etc"
+    },
+    "CLEAR_TOKEN": {
+      "description": "A key used to clear the cache, useful for Github Actions",
+      "generator": "secret"
+    }
+  }
+}

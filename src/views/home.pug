@@ -1,0 +1,52 @@
+extends layout
+
+
+block content
+    main.container(role='main')
+        .starter
+            h1=info.name
+            p.lead
+                | #{info.description}
+                br
+                | #{info.version}
+
+
+        .row.mb-3
+            .col-md-3.themed-grid-col
+            .col-md-6.themed-grid-col.text-left
+                h3 1. Edit ~/.upmconfig.toml
+                ul
+                    li You will need a
+                        |
+                        a(href='https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token')  Github Personal Access token
+                        |
+                        | with a minimum scope of
+                        span.bg-light.text-secondary  read:packages
+                    li Then add the following to the
+                        |
+                        a(href='https://docs.unity3d.com/Manual/upm-config-scoped.html')  upmconfig
+                        |  file
+
+                pre.code.text-left.bg-light.text-secondary.p-3
+                    | [npmAuth."#{site.host}#{site.scope}"]
+                    | token = "
+                    span.font-weight-bold.text-danger GITHUB_PERSONAL_ACCESS_TOKEN"
+                    |
+                    | alwaysAuth = true
+                br
+                h3 2. Unity configuration
+                ul
+                    li Within Unity (2019) Go to
+                        span.font-weight-bold  Edit > Project Settings
+                    li Then open
+                        span.font-weight-bold  Package Manager > Scoped Registries
+                    li Use the following configuration. Change the scope naming convention of that used in your package names.
+                pre.code.text-left.bg-light.text-secondary.p-3
+                    | Name: GithubUPM
+                    | URL: #{site.host}#{site.scope}
+                    | Scope(s):
+                    if site.packageScope
+                        span  #{site.packageScope}
+                    else
+                        span.font-weight-bold.text-danger  com.myorganization.etc
+            .col-md-3.themed-grid-col

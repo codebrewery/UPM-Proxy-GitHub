@@ -1,0 +1,44 @@
+{
+  "name": "upm-proxy-github",
+  "version": "0.0.10",
+  "description": "JS Proxy for Github packages and Unity Scoped Registry",
+  "main": "bin/web.js",
+  "scripts": {
+    "start": "node ./bin/web",
+    "start-nf": "nf start",
+    "test": "./node_modules/.bin/standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codebrewery/UPM-Proxy-GitHub.git"
+  },
+  "author": "codeBrewery",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codebrewery/UPM-Proxy-GitHub/issues"
+  },
+  "homepage": "https://github.com/codebrewery/UPM-Proxy-GitHub#readme",
+  "engines": {
+    "node": "14.15.0"
+  },
+  "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "@octokit/graphql": "^4.5.7",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-bearer-token": "^2.4.0",
+    "follow-redirects": "^1.13.0",
+    "helmet": "^3.21.2",
+    "node-cache": "^5.1.2",
+    "pug": "^2.0.4",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "foreman": "^3.0.1",
+    "standard": "^16.0.1"
+  },
+  "config": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
