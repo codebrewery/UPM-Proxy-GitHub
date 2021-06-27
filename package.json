@@ -31,7 +31,7 @@
     "follow-redirects": "^1.13.0",
     "helmet": "^3.21.2",
     "node-cache": "^5.1.2",
-    "pug": "^2.0.4",
+    "pug": "^3.0.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {
