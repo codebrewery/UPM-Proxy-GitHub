@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/codebrewery/UPM-Proxy-GitHub#readme",
   "engines": {
-    "node": "14.15.0"
+    "node": "16.4.0"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
