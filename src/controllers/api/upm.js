@@ -1,27 +1,29 @@
 'use strict'
 
-const Joi = require('@hapi/joi')
+const Joi = require('joi')
 const utils = require('../../logic/utils')
-const config = require('../../../package.json').config
-
+const { getOrgPackageData } = require('../../logic/retrievePackageData')
 const schema = Joi.object({
   scope: Joi.required(),
   packageName: Joi.required()
 })
 
 function controller (req, res) {
-  const token = req.token || process.env.GITHUB_TOKEN
-  const { scope, packageName } = req.params
-
+  const { packageName, scope } = req.params
   const host = req.secure ? `https://${req.headers.host}` : `http://${req.headers.host}`
+  const token = req.token || process.env.GITHUB_TOKEN
 
-  utils.request(`${config.registry}/${scope}%2F${packageName}`, token, host)
-    .then(result => {
-      utils.successfulJsonResponse(req, res, result)
-    })
-    .catch(err => {
-      res.status(500).json(err)
-    })
+  getPackageData(scope, token, host).then(() => {
+    const packageData = utils.getCachedPackageData(token, packageName)
+    utils.successfulJsonResponse(req, res, packageData)
+  })
+}
+
+async function getPackageData (scope, token, host) {
+  if (utils.hasCachedPackageData(token) === false) {
+    // The package data for this user is not cached, retrieve the data
+    await getOrgPackageData(scope, token, host)
+  }
 }
 
 module.exports = {

@@ -6,6 +6,7 @@ const path = require('path')
 const helmet = require('helmet')
 const cors = require('cors')
 const routeMapper = require('./routeMapper')
+const webhooks = require('../webhooks')
 const logger = require('./winston')
 
 // middleware
@@ -31,6 +32,9 @@ app.use(cache)
 
 // Routes
 routeMapper.mapRoutes(app)
+
+// WebHooks
+webhooks.register(app)
 
 // Error handlers
 app.use(function (req, res) {
