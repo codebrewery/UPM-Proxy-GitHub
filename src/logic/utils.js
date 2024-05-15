@@ -3,11 +3,12 @@
 const { https } = require('follow-redirects')
 const logger = require('./winston')
 
-const clearToken = process.env.CLEAR_TOKEN || ''
 const cacheTTL = parseInt(process.env.CACHE_TTL || 7200, 10)
 
 const NodeCache = require('node-cache')
 const cache = new NodeCache({ stdTTL: cacheTTL, checkperiod: 0 })
+
+let memoryData = {}
 
 const generateCacheKey = function (req) {
   return `${req.url}.${req.token}`
@@ -22,14 +23,29 @@ const successfulJsonResponse = function (req, res, json) {
   cache.set(generateCacheKey(req), json)
 }
 
-const invalidateCache = function (token) {
-  if (clearToken === token) {
-    logger.info('cache invalidation request')
-    logger.info(JSON.stringify(cache.getStats()))
-    cache.flushAll()
-    return true
-  }
-  return false
+const cachePackageData = function (token, json) {
+  memoryData[token] = json
+}
+
+const getCachedLatestVersions = function (token) {
+  return memoryData[token].all
+}
+
+const hasCachedPackageData = function (token) {
+  return memoryData[token] !== undefined
+}
+
+const getCachedPackageData = function (token, packageName) {
+  return memoryData[token].packages[packageName]
+}
+
+const flushCache = function () {
+  logger.info('Cache invalidation request. Current cache:')
+  logger.info(JSON.stringify(cache.getStats()))
+  cache.flushAll()
+  memoryData = {}
+  logger.info('Cache after request:')
+  logger.info(JSON.stringify(cache.getStats()))
 }
 
 const request = function (url, token, host) {
@@ -64,11 +80,10 @@ const request = function (url, token, host) {
           return reject(JSON.parse(data))
         }
 
-        const result = data.split('https://npm.pkg.github.com/download/').join(`${host}/upm/download/`)
         let json = {}
 
         try {
-          json = JSON.parse(result)
+          json = JSON.parse(data)
         } catch (e) {
           return reject(e)
         }
@@ -90,46 +105,13 @@ const request = function (url, token, host) {
   })
 }
 
-const requestTarBall = function (url, token, packageName, res) {
-  const options = {
-    url: url,
-    method: 'GET',
-    followAllRedirects: true,
-    headers: {
-      Accept: 'application/*',
-      'User-Agent': 'npm',
-      authorization: `Bearer ${token}`
-    },
-    encoding: null,
-    gzip: true,
-    timeout: 30000,
-    strictSSL: true,
-    agentOptions: {}
-  }
-
-  res.setHeader('Content-type', 'application/x-gzip')
-  res.setHeader('Content-Disposition', `attachment; filename="${packageName}.tar.gz"`)
-
-  const responseHandler = function (response) {
-    response.on('data', function (chunk) {
-      res.write(chunk)
-    })
-    response.on('end', function () {
-      res.end()
-    })
-  }
-
-  const request = https.request(url, options, responseHandler)
-  request.on('error', (err) => {
-    res.status(500).json(err)
-  })
-  request.end()
-}
-
 module.exports = {
   request,
-  requestTarBall,
   successfulJsonResponse,
   cacheGet,
-  invalidateCache
+  flushCache,
+  cachePackageData,
+  hasCachedPackageData,
+  getCachedLatestVersions,
+  getCachedPackageData
 }

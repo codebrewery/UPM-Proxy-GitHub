@@ -19,24 +19,25 @@
   },
   "homepage": "https://github.com/codebrewery/UPM-Proxy-GitHub#readme",
   "engines": {
-    "node": "16.4.0"
+    "node": "18.7.0"
   },
   "dependencies": {
-    "@hapi/joi": "^16.1.8",
-    "@octokit/graphql": "^4.5.7",
+    "@octokit/core": "^4.1.0",
+    "@octokit/webhooks": "^10.3.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.2",
     "express": "^4.17.1",
     "express-bearer-token": "^2.4.0",
     "follow-redirects": "^1.13.0",
-    "helmet": "^3.21.2",
+    "helmet": "^6.0.0",
+    "joi": "^17.6.1",
     "node-cache": "^5.1.2",
     "pug": "^3.0.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {
     "foreman": "^3.0.1",
-    "standard": "^16.0.1"
+    "standard": "^17.0.0"
   },
   "config": {
     "registry": "https://npm.pkg.github.com"

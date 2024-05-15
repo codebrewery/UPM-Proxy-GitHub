@@ -14,27 +14,29 @@ block content
         .row.mb-3
             .col-md-3.themed-grid-col
             .col-md-6.themed-grid-col.text-left
-                h3 1. Edit ~/.upmconfig.toml
+                h4 1. Edit ~/.upmconfig.toml
                 ul
-                    li You will need a
-                        |
-                        a(href='https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token')  Github Personal Access token
-                        |
-                        | with a minimum scope of
-                        span.bg-light.text-secondary  read:packages
-                    li Then add the following to the
-                        |
-                        a(href='https://docs.unity3d.com/Manual/upm-config-scoped.html')  upmconfig
-                        |  file
 
-                pre.code.text-left.bg-light.text-secondary.p-3
-                    | [npmAuth."#{site.host}#{site.scope}"]
-                    | token = "
-                    span.font-weight-bold.text-danger GITHUB_PERSONAL_ACCESS_TOKEN"
-                    |
-                    | alwaysAuth = true
+                    li Create a
+                        |
+                        a(href='https://docs.unity3d.com/Manual/upm-config-scoped.html')  upmconfig.toml
+                        |  file in your user folder with the following contents:
+                    pre.code.text-left.bg-light.text-secondary.p-3
+                        | [npmAuth."#{site.host}#{site.scope}"]
+                        | token = "
+                        span.font-weight-bold.text-danger GITHUB_PERSONAL_ACCESS_TOKEN"
+                        |
+                        | alwaysAuth = true
+
+                    li Generate a new 
+                        |
+                        a(href='https://github.com/settings/tokens/new?description=PaladinUPM&scopes=read:packages')  Github Personal Access token
+                        |  (PAT). 
+                    li Copy the token and replace the 
+                        span.code.font-weight-bold.text-danger GITHUB_PERSONAL_ACCESS_TOKEN 
+                        |  within the upmconfig.toml file
                 br
-                h3 2. Unity configuration
+                h4 2. Unity configuration
                 ul
                     li Within Unity go to
                         span.font-weight-bold  Edit > Project Settings
