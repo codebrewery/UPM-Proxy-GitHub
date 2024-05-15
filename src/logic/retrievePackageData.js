@@ -6,7 +6,7 @@ const config = require('../../package.json').config
 
 async function getOrgPackageData (scope, token, host) {
   // This is the object all the data is added to and cached in memory once
-  let resultObject = {
+  const resultObject = {
     all: {},
     packages: {}
   }

@@ -1,7 +1,7 @@
 'use strict'
 
 // Webhook setup
-const { Webhooks, createNodeMiddleware } = require("@octokit/webhooks")
+const { Webhooks, createNodeMiddleware } = require('@octokit/webhooks')
 const webhooks = new Webhooks({ secret: process.env.GITHUB_SECRET || '' })
 const logger = require('./logic/winston')
 

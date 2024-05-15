@@ -53,7 +53,7 @@ const request = function (url, token, host) {
 
   return new Promise((resolve, reject) => {
     const options = {
-      url: url,
+      url,
       method: 'GET',
       headers: {
         Accept: 'application/json;',
